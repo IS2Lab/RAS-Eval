@@ -1,0 +1,89 @@
+[
+    {
+        "name": "add_event_to_calendar",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "start_time": {
+                    "description": "start time of the event. Format: \"YYYY-MM-DD HH:MM:SS\"",
+                    "title": "Start Time",
+                    "type": "string"
+                },
+                "end_time": {
+                    "description": "end time of the event. Format: \"YYYY-MM-DD HH:MM:SS\"",
+                    "title": "End Time",
+                    "type": "string"
+                },
+                "event": {
+                    "description": "event name",
+                    "title": "Event",
+                    "type": "string"
+                },
+                "location": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "location of the event",
+                    "title": "Location"
+                }
+            }
+        }
+    },
+    {
+        "name": "get_events_from_calendar",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "start_time": {
+                    "description": "start time of the event. Format: \"YYYY-MM-DD HH:MM:SS\"",
+                    "title": "Start Time",
+                    "type": "string"
+                },
+                "end_time": {
+                    "description": "end time of the event. Format: \"YYYY-MM-DD HH:MM:SS\"",
+                    "title": "End Time",
+                    "type": "string"
+                }
+            }
+        }
+    },
+    {
+        "name": "search_event",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "event": {
+                    "description": "event name",
+                    "title": "Event",
+                    "type": "string"
+                }
+            }
+        }
+    },
+    {
+        "name": "remove_event_from_calendar",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "event": {
+                    "description": "event name",
+                    "title": "Event",
+                    "type": "string"
+                }
+            }
+        }
+    },
+    {
+        "name": "get_today_date",
+        "parameters": {
+            "type": "object",
+            "properties": {}
+        }
+    }
+]

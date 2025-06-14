@@ -1,0 +1,15 @@
+[
+    {
+        "name": "get_weather",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "city": {
+                    "description": "The city to get the weather of. e.g. \"beijing\"",
+                    "title": "City",
+                    "type": "string"
+                }
+            }
+        }
+    }
+]

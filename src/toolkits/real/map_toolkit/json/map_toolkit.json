@@ -1,0 +1,33 @@
+[
+    {
+        "name": "location_decode",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "latitude": {
+                    "description": "The latitude of the location.",
+                    "title": "Latitude",
+                    "type": "number"
+                },
+                "longitude": {
+                    "description": "The longitude of the location.",
+                    "title": "Longitude",
+                    "type": "number"
+                }
+            }
+        }
+    },
+    {
+        "name": "location_encode",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "location": {
+                    "description": "The location to get the latitude and longitude of.",
+                    "title": "Location",
+                    "type": "string"
+                }
+            }
+        }
+    }
+]

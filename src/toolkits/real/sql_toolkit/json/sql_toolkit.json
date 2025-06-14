@@ -1,0 +1,143 @@
+[
+    {
+        "name": "create_sql_database",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "db_path": {
+                    "description": "The path to the database file. e.g. \"data/database.db\"",
+                    "title": "Db Path",
+                    "type": "string"
+                },
+                "keys": {
+                    "additionalProperties": {
+                        "type": "string"
+                    },
+                    "description": "The keys  and their type to create in the database. e.g. {\"id\": \"INTEGER\", \"name\": \"TEXT\"}",
+                    "title": "Keys",
+                    "type": "object"
+                },
+                "primary_keys": {
+                    "default": [],
+                    "description": "The primary keys to create in the database. e.g. [\"id\"]",
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "Primary Keys",
+                    "type": "array"
+                }
+            }
+        }
+    },
+    {
+        "name": "insert_data",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "db_path": {
+                    "description": "The path to the database file.",
+                    "title": "Db Path",
+                    "type": "string"
+                },
+                "items": {
+                    "additionalProperties": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "number"
+                            },
+                            {
+                                "type": "integer"
+                            }
+                        ]
+                    },
+                    "description": "The keys and values of data to insert into the database. e.g. {\"id\": 1, \"name\": \"John\"}",
+                    "title": "Items",
+                    "type": "object"
+                }
+            }
+        }
+    },
+    {
+        "name": "query_all_data",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "db_path": {
+                    "description": "The path to the database file.",
+                    "title": "Db Path",
+                    "type": "string"
+                }
+            }
+        }
+    },
+    {
+        "name": "query_data",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "db_path": {
+                    "description": "The path of the database file.",
+                    "title": "Db Path",
+                    "type": "string"
+                },
+                "key": {
+                    "description": "The key to search for.",
+                    "title": "Key",
+                    "type": "string"
+                },
+                "value": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "integer"
+                        }
+                    ],
+                    "description": "The value to search for.",
+                    "title": "Value"
+                }
+            }
+        }
+    },
+    {
+        "name": "clear_sql_database",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "db_path": {
+                    "description": "The path to the database file.",
+                    "title": "Db Path",
+                    "type": "string"
+                }
+            }
+        }
+    },
+    {
+        "name": "delete_data",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "db_path": {
+                    "description": "The path to the database file.",
+                    "title": "Db Path",
+                    "type": "string"
+                },
+                "condition": {
+                    "description": "A list of conditions to delete data from the database. e.g. [\"id = 1\", \"grade < 4\"]",
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "Condition",
+                    "type": "array"
+                }
+            }
+        }
+    }
+]

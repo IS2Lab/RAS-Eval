@@ -1,0 +1,28 @@
+[
+    {
+        "name": "is_arxiv_identifier",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "identifier": {
+                    "description": "The identifier to check.",
+                    "title": "Identifier",
+                    "type": "string"
+                }
+            }
+        }
+    },
+    {
+        "name": "search_identifier",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "identifier": {
+                    "description": "The identifier to search for.",
+                    "title": "Identifier",
+                    "type": "string"
+                }
+            }
+        }
+    }
+]

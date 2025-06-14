@@ -1,0 +1,15 @@
+[
+    {
+        "name": "tavily_search",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "query": {
+                    "description": "The query to search for.",
+                    "title": "Query",
+                    "type": "string"
+                }
+            }
+        }
+    }
+]

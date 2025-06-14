@@ -1,0 +1,20 @@
+[
+    {
+        "name": "get_stock_data",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "ts_code": {
+                    "description": "The stock code. e.g. \"000001.SZ\" for the Shanghai Stock Exchange.",
+                    "title": "Ts Code",
+                    "type": "string"
+                },
+                "trade_date": {
+                    "description": "The date of the market data, e.g. \"2023-02-07\".",
+                    "title": "Trade Date",
+                    "type": "string"
+                }
+            }
+        }
+    }
+]
