@@ -1,12 +1,11 @@
 [
     {
         "name": "create_sql_database",
+        "description": "Create a sql database with the given name and keys.",
         "parameters": {
-            "type": "object",
             "properties": {
                 "db_path": {
                     "description": "The path to the database file. e.g. \"data/database.db\"",
-                    "title": "Db Path",
                     "type": "string"
                 },
                 "keys": {
@@ -14,7 +13,6 @@
                         "type": "string"
                     },
                     "description": "The keys  and their type to create in the database. e.g. {\"id\": \"INTEGER\", \"name\": \"TEXT\"}",
-                    "title": "Keys",
                     "type": "object"
                 },
                 "primary_keys": {
@@ -23,20 +21,23 @@
                     "items": {
                         "type": "string"
                     },
-                    "title": "Primary Keys",
                     "type": "array"
                 }
-            }
+            },
+            "required": [
+                "db_path",
+                "keys"
+            ],
+            "type": "object"
         }
     },
     {
         "name": "insert_data",
+        "description": "Insert a single data into a SQL database.",
         "parameters": {
-            "type": "object",
             "properties": {
                 "db_path": {
                     "description": "The path to the database file.",
-                    "title": "Db Path",
                     "type": "string"
                 },
                 "items": {
@@ -54,38 +55,43 @@
                         ]
                     },
                     "description": "The keys and values of data to insert into the database. e.g. {\"id\": 1, \"name\": \"John\"}",
-                    "title": "Items",
                     "type": "object"
                 }
-            }
+            },
+            "required": [
+                "db_path",
+                "items"
+            ],
+            "type": "object"
         }
     },
     {
         "name": "query_all_data",
+        "description": "Query all data from a SQL database.",
         "parameters": {
-            "type": "object",
             "properties": {
                 "db_path": {
                     "description": "The path to the database file.",
-                    "title": "Db Path",
                     "type": "string"
                 }
-            }
+            },
+            "required": [
+                "db_path"
+            ],
+            "type": "object"
         }
     },
     {
         "name": "query_data",
+        "description": "Query data based on a specific key and value from a SQL database.",
         "parameters": {
-            "type": "object",
             "properties": {
                 "db_path": {
                     "description": "The path of the database file.",
-                    "title": "Db Path",
                     "type": "string"
                 },
                 "key": {
                     "description": "The key to search for.",
-                    "title": "Key",
                     "type": "string"
                 },
                 "value": {
@@ -100,33 +106,40 @@
                             "type": "integer"
                         }
                     ],
-                    "description": "The value to search for.",
-                    "title": "Value"
+                    "description": "The value to search for."
                 }
-            }
+            },
+            "required": [
+                "db_path",
+                "key",
+                "value"
+            ],
+            "type": "object"
         }
     },
     {
         "name": "clear_sql_database",
+        "description": "Clear all data from a SQL database.",
         "parameters": {
-            "type": "object",
             "properties": {
                 "db_path": {
                     "description": "The path to the database file.",
-                    "title": "Db Path",
                     "type": "string"
                 }
-            }
+            },
+            "required": [
+                "db_path"
+            ],
+            "type": "object"
         }
     },
     {
         "name": "delete_data",
+        "description": "Delete data from a SQL database based on given conditions.",
         "parameters": {
-            "type": "object",
             "properties": {
                 "db_path": {
                     "description": "The path to the database file.",
-                    "title": "Db Path",
                     "type": "string"
                 },
                 "condition": {
@@ -134,10 +147,14 @@
                     "items": {
                         "type": "string"
                     },
-                    "title": "Condition",
                     "type": "array"
                 }
-            }
+            },
+            "required": [
+                "db_path",
+                "condition"
+            ],
+            "type": "object"
         }
     }
 ]

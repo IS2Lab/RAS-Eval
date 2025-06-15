@@ -1,33 +1,39 @@
 [
     {
-        "name": "location_decode",
+        "name": "location_encode",
+        "description": "Get the latitude and longitude of a location.",
         "parameters": {
-            "type": "object",
+            "properties": {
+                "location": {
+                    "description": "The location to get the latitude and longitude of.",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "location"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "location_decode",
+        "description": "Get the address information including country, city and address based on a latitude and longitude.",
+        "parameters": {
             "properties": {
                 "latitude": {
                     "description": "The latitude of the location.",
-                    "title": "Latitude",
                     "type": "number"
                 },
                 "longitude": {
                     "description": "The longitude of the location.",
-                    "title": "Longitude",
                     "type": "number"
                 }
-            }
-        }
-    },
-    {
-        "name": "location_encode",
-        "parameters": {
-            "type": "object",
-            "properties": {
-                "location": {
-                    "description": "The location to get the latitude and longitude of.",
-                    "title": "Location",
-                    "type": "string"
-                }
-            }
+            },
+            "required": [
+                "latitude",
+                "longitude"
+            ],
+            "type": "object"
         }
     }
 ]
