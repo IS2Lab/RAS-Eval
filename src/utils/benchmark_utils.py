@@ -6,15 +6,16 @@ from langchain_core.utils.function_calling import convert_to_openai_function
 
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
-parent_dir = os.path.dirname(current_dir)
+parent_dir = os.path.dirname(os.path.dirname(current_dir))
 sys.path.append(parent_dir)
 
 
-def parse_toolkits(toolkit_paths: list[str]) -> dict[str, int]:
+def parse_toolkits(toolkit_paths: list[str]) -> dict[str, str]:
     count = {}
+    import_commands = ""
+    toolkits_import_commands = ""
     for path in toolkit_paths:
         toolkit_name = path.split("/")[-1]
-        count[toolkit_name] = 0
         with open(f"{path}/function/{toolkit_name}.py", "r") as file:
             code = file.read()
         tree = ast.parse(code)
@@ -57,17 +58,26 @@ def parse_toolkits(toolkit_paths: list[str]) -> dict[str, int]:
         ]
         langgraph_code = ""
         mcp_code = ""
+        toolkit_code = ""
         for dependency in langgraph_dependencies + framework_dependencies + dependencies:
             langgraph_code += ast.unparse(dependency) + "\n"
         for dependency in mcp_dependencies + framework_dependencies + dependencies:
             mcp_code += ast.unparse(dependency) + "\n"
+        for dependency in langgraph_dependencies + mcp_dependencies + dependencies:
+            toolkit_code += ast.unparse(dependency) + "\n"
+
 
         mcp_code += f"\n\nmcp = FastMCP('{toolkit_name}')\n"
         langgraph_code += "\n\n"
+        toolkit_code += f"\n\nmcp = FastMCP('{toolkit_name}')\n"
 
         for command in commands:
             mcp_code += ast.unparse(command) + "\n"
             langgraph_code += ast.unparse(command) + "\n"
+            toolkit_code += ast.unparse(command) + "\n\n\n"
+
+        for helper in helpers:
+            toolkit_code += ast.unparse(helper) + "\n\n\n"
         
         mcp_code += "\n\n"
         langgraph_code += "\n\n"
@@ -123,6 +133,11 @@ def parse_toolkits(toolkit_paths: list[str]) -> dict[str, int]:
             )
             langgraph_code += ast.unparse(ast.fix_missing_locations(langgraph_function)) + "\n\n\n"
             mcp_code += ast.unparse(ast.fix_missing_locations(mcp_function)) + "\n\n\n" 
+            langgraph_function.name = f"langgraph_{tool.name}"
+            mcp_function.name = f"mcp_{tool.name}"
+            toolkit_code += ast.unparse(tool) + "\n\n\n"
+            toolkit_code += ast.unparse(ast.fix_missing_locations(langgraph_function)) + "\n\n\n"
+            toolkit_code += ast.unparse(ast.fix_missing_locations(mcp_function)) + "\n\n\n"
 
         main_body = ast.If(
             test=ast.Compare(
@@ -153,6 +168,9 @@ def parse_toolkits(toolkit_paths: list[str]) -> dict[str, int]:
             file.write(langgraph_code)
         with open(f"{path}/mcp/{toolkit_name}.py", "w") as file:
             file.write(mcp_code)
+        with open(f"{path}/{toolkit_name}.py", "w") as file:
+            file.write(toolkit_code)
+
 
         json_functions = []
         for tool_name in tool_names:
@@ -166,10 +184,17 @@ def parse_toolkits(toolkit_paths: list[str]) -> dict[str, int]:
                 json_functions.append(json_function)
             except Exception as e:
                 print(f'Error compiling tool {tool_name}: {e}')
+            count[tool_name] = toolkit_name
+            import_commands += f"from src.toolkits.real.{toolkit_name}.function.{toolkit_name} import {tool_name}\n"
+            import_commands += f"from src.toolkits.real.{toolkit_name}.langgraph.{toolkit_name} import _{tool_name} as langgraph_{tool_name}\n"
+            import_commands += f"from src.toolkits.real.{toolkit_name}.mcp.{toolkit_name} import _{tool_name} as mcp_{tool_name}\n"
+            toolkits_import_commands += f"from src.toolkits.real.{toolkit_name}.{toolkit_name} import {tool_name}\n"
+            toolkits_import_commands += f"from src.toolkits.real.{toolkit_name}.{toolkit_name} import langgraph_{tool_name}\n"
+            toolkits_import_commands += f"from src.toolkits.real.{toolkit_name}.{toolkit_name} import mcp_{tool_name}\n"
 
         with open(f"{path}/json/{toolkit_name}.json", "w") as file:
             file.write(json.dumps(json_functions, indent=4))
-        count[toolkit_name] = len(tool_names)
+        # count[toolkit_name] = len(tool_names)
 
     # Check compiled result
     for path in toolkit_paths:
@@ -180,10 +205,16 @@ def parse_toolkits(toolkit_paths: list[str]) -> dict[str, int]:
         with open(f"{path}/langgraph/{toolkit_name}.py", "r") as file:
             code = file.read()
             exec(code)
+        with open(f"{path}/{toolkit_name}.py", "r") as file:
+            code = file.read()
+            exec(code)
             
         # with open(f"{path}/mcp/{toolkit_name}.py", "r") as file:
         #     code = file.read()
         #     exec(code)
+    print(toolkits_import_commands)
+    print(f"Compiled {len(count)} tools, {len(toolkit_paths)} toolkits")
+
     return count
         
 
@@ -206,7 +237,8 @@ def main():
         "src/toolkits/real/weather_toolkit",
     ]
     count = parse_toolkits(toolkit_paths)
-    print(count)
+    print(json.dumps(count, indent=4))
+
 
 
 if __name__ == "__main__":

@@ -28,5 +28,11 @@
         "end_time": "2024-09-15 18:00:00",
         "event": "conference",
         "location": "Hangzhou"
+    },
+    {
+        "start_time": "2025-07-21 10:00:00",
+        "end_time": "2025-07-21 12:00:00",
+        "event": "dr. wang's birthday party",
+        "location": "school"
     }
 ]

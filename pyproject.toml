@@ -6,9 +6,12 @@ readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "arxiv>=2.2.0",
+    "aspectlib>=2.0.0",
     "langchain-core>=0.3.65",
+    "langchain-experimental>=0.3.4",
     "langchain-ollama>=0.3.3",
     "langchain-openai>=0.3.22",
+    "langchain-qwq>=0.1.5",
     "langgraph>=0.4.8",
     "markitdown[all]>=0.1.2",
     "mcp[cli]>=1.9.3",
